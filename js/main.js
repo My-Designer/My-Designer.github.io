@@ -47,14 +47,21 @@ class Style {
       target.f = source.f;
       target.w = source.w || 'normal';
     }
+    const sep = this.all.n ? '\\A' : '  ';
     g.css = ''
-    + '\n.symbol::before {content: "  "}'
+    + '\n.symbol::before {content: "'+sep+'"; white-space: pre}'
     + '\n.price::before {content: " "}'
     + '\n.price::after {content: " ' + (this.all.j||'➜') + '"}'
     + '\n.action::before {content: " "}'
     + '\n#dice .price {display: none}'
   }
 }
+
+g.s0 = new Style({
+  menu: {s: '🌹', f: '#ee5'},
+  fans: {s: '🐸', f: '#090'},
+  dice: {s: '🎲', f: '#b3d'},
+});
 
 g.s1 = new Style({
   menu: {s: '🐍', f: '#f7b'},
@@ -66,6 +73,13 @@ g.s2 = new Style({
   menu: {s: '🌸', f: '#0bd'},
   fans: {s: '🍁', f: '#090'},
   dice: {s: '🎲', f: '#ff0'},
+});
+
+g.s3 = new Style({
+  menu: {s: '🌵', f: '#0bd'},
+  fans: {s: '🏰', f: '#090'},
+  dice: {s: '🎲', f: '#ff0'},
+  n: true
 });
 
 function setCSS(s) {
@@ -84,8 +98,8 @@ function initStyles() {
   document.body.appendChild(g.sheet);
 }
 
-function setStyles() {
-  g.s1.apply();
+function setStyles(y = g.s0) {
+  y.apply();
   let r = g.css;
   for (const duty in offers) {
     const {s, f, w} = offers[duty];
