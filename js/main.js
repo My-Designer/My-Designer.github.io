@@ -1,21 +1,13 @@
-function myFunction() {
-  document.getElementById('demo').innerHTML = 'Paragraph changed.';
-
-  newStyles();
-}
-
 /* ᛬፡։ː• */
 
 const g = {};
 
-function setStyles() {
-  g.sheet = document.createElement('style')
-  g.sheet.innerHTML = "div {border: 2px solid black; background-color: blue;}";
-  document.body.appendChild(g.sheet);
-}
 
-function newStyles() {
-  g.sheet.innerHTML = "div {border: 2px solid black; background-color: green;}";
+function mergeDeep(source, target) {
+  if (!target) target = {};
+  if (typeof source !== 'object' || Array.isArray(source)) target = source;
+  else for (const key in source) target[key] = mergeDeep(source[key], target[key]);
+  return target;
 }
 
 const offers = {
@@ -42,6 +34,68 @@ const offers = {
     6: 'Brush Bush',
   },
 };
+
+class Style {
+  constructor(all) {
+    this.all = all;
+  }
+  apply() {
+    for (const duty in offers) {
+      const source = this.all[duty];
+      const target = offers[duty];
+      target.s = source.s;
+      target.f = source.f;
+      target.w = source.w || 'normal';
+    }
+    g.css = ''
+    + '\n.symbol::before {content: "  "}'
+    + '\n.price::before {content: " "}'
+    + '\n.price::after {content: " ' + (this.all.j||'➜') + '"}'
+    + '\n.action::before {content: " "}'
+    + '\n#dice .price {display: none}'
+  }
+}
+
+g.s1 = new Style({
+  menu: {s: '🐍', f: '#f7b'},
+  fans: {s: '🐞', f: '#090'},
+  dice: {s: '🎲', f: '#0ff'},
+});
+
+g.s2 = new Style({
+  menu: {s: '🌸', f: '#0bd'},
+  fans: {s: '🍁', f: '#090'},
+  dice: {s: '🎲', f: '#ff0'},
+});
+
+function setCSS(s) {
+  g.sheet.innerHTML =  s;
+}
+
+function setAfter(s) {
+  setCSS( ''
+//    +'\np::after {content: "hup'+s+'"}'
+    +'\n.symbol::after {content: "hup'+s+'"}'
+  );
+}
+
+function initStyles() {
+  g.sheet = document.createElement('style')
+  document.body.appendChild(g.sheet);
+}
+
+function setStyles() {
+  g.s1.apply();
+  let r = g.css;
+  for (const duty in offers) {
+    const {s, f, w} = offers[duty];
+    r += ''
+    + `\n #${duty} .symbol::after {content: "${s}"}`
+    + `\n #${duty} .action {font: "color=${f}"}`
+  }
+  setCSS(r);
+}
+
 const nbsp = s => s.replace(/ /g,' ');
 function prepareText() {
   for (const off in offers) {
@@ -63,5 +117,6 @@ function setOffers() {
   let inner = '';
   for (const name in offers) inner += oneOffer(name);
   document.getElementById('offers').innerHTML = inner;
-  StyleSheet.insertRule(".symbol::before {content: '⬇️'}");
+  return;
+  // StyleSheet.insertRule(".symbol::before {content: '⬇️'}");
 }
