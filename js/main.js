@@ -1,4 +1,12 @@
-/* ᛬፡։ː• */
+/* ։ː• */
+
+/* Lost in Space:
+&emsp13; (sticks with previous line in case of line break)
+space (regular, next separator may be begin of next line)
+separator symbol
+no-break space, price. narrow no-break space, joiner
+no-break space, action with each space replaced by no-break space
+*/
 
 const g = {};
 
@@ -11,27 +19,35 @@ function mergeDeep(source, target) {
 }
 
 const offers = {
-  menu: {
-    head: 'Tip for Tasks',
-    2: 'PM',
-    5: 'Blow Kiss',
-    12: 'Wet my Shirt',
-    21: 'Get out of these damp Clothes',
-  },
-  fans: {
-    head: 'Fan Club Exlusive',
-    13: 'Cut my Shirt',
-    23: 'Shower without any Clothes',
-    33: 'Shower with all my Clothes',
-    37: 'Take off all my Clothes and wash them',
+  goal: {
+    head: 'Go for the Goal',
+    20: 'Drop one Strap',
+    50: 'Drop other Strap',
+    90: 'Hands up!',
   },
   dice: {
-    head: 'Tip 9 to roll Dice',
+    head: 'Tip 9 or type /dice',
     2: 'Strip Dance',
     3: 'Flash Tits',
     4: 'Blow Kiss',
     5: 'Lick Finger',
     6: 'Brush Bush',
+  },
+  menu: {
+    head: 'Tip for Tasks',
+    2: 'PM',
+    5: 'Blow Kiss',
+    17: 'Turn around',
+    22: 'Wet my Shirt',
+    27: 'Get out of these damp Clothes',
+    33: 'Spank that naughty Ass',
+  },
+  fans: {
+    head: 'Fan Club Exlusive',
+    13: 'Cut my Shirt',
+    23: 'Shower without any Clothes',
+    32: 'Shower with all my Clothes',
+    34: 'Take off all my Clothes and wash them',
   },
 };
 
@@ -48,33 +64,44 @@ class Style {
       target.n = source.n;
       target.w = source.w || 'normal';
     }
-    g.css = ''
-    + '\n.price::before {content: " "}'
+    g.css = 'p{margin: 0; margin-top: .3em; padding: 0;}'
+    + '\n.price::before {content: " "}'
     + '\n.price::after {content: " ' + (this.all.j||'➜') + '"}'
-    + '\n.action::before {content: " "}'
+    + '\n.action::before {content: " "}'
     + '\n#dice .price {display: none}'
   }
 }
 
 g.s0 = new Style({
-  menu: {s: '🌹', f: '#ee5'},
+  goal: {s: '🚩', f: '#777', n:true},
+  menu: {s: '🌹', f: '#f90'},
   fans: {s: '🐸', f: '#090'},
   dice: {s: '🎲', f: '#b3d'},
 });
 
 g.s1 = new Style({ j: '•',
+  goal: {s: '🏁', f: '#aaa'},
   menu: {s: '🐍', f: '#f7b'},
   fans: {s: '🐞', f: '#090'},
-  dice: {s: '🎲', f: '#0ff'},
+  dice: {s: '🎲', f: '#0ad'},
 });
 
-g.s2 = new Style({ j: '፡',
-  menu: {s: '🌸', f: '#0bd'},
+g.s2 = new Style({ j: '։',
+  goal: {s: '🏁', f: '#555', n:true},
+  menu: {s: '🌸', f: '#0ad'},
   fans: {s: '🍁', f: '#090'},
   dice: {s: '🎲', f: '#a70', n:true},
 });
 
-g.s3 = new Style({
+g.s3 = new Style({ j: 'ː',
+  goal: {s: '🚩', f: '#bbb'},
+  menu: {s: '🌸', f: '#0ad'},
+  fans: {s: '🍁', f: '#090'},
+  dice: {s: '🎲', f: '#a70'},
+});
+
+g.s4 = new Style({
+  goal: {s: '🚩', f: '#666', n:true},
   menu: {s: '🌵', f: '#0bd', n:true},
   fans: {s: '💎', f: '#090', n:true},
   dice: {s: '🎲', f: '#c90'},
@@ -112,13 +139,12 @@ function prepareText() {
 }
 function oneOffer(name) {
   const offer = offers[name];
-  let s = `<span class="offer" id="${name}">Notice: `+offer.head;
-  for (const key in offer) {
-    const price = +key;
-    const val = offer[key];
-    if (price > 0) s += `<span class="symbol"></span><span class="price">${price}</span><span class="action">${val}</span>`
+  let s = `<p><span class="offer" id="${name}">Notice: `+offer.head;
+  for (const key in offer) if (+key>0) {
+    const val = offer[key].replaceAll(' ',' ');
+    s += `<span class="symbol"><wbr></span><span class="price">${+key}</span><span class="action">${val}</span>`
   }
-  return s + '</span><br>';
+  return s + '</span></p>';
 }
 function setOffers() {
   let inner = '';
