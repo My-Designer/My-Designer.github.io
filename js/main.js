@@ -45,11 +45,10 @@ class Style {
       const target = offers[duty];
       target.s = source.s;
       target.f = source.f;
+      target.n = source.n;
       target.w = source.w || 'normal';
     }
-    const sep = this.all.n ? '\\A' : '  ';
     g.css = ''
-    + '\n.symbol::before {content: "'+sep+'"; white-space: pre}'
     + '\n.price::before {content: " "}'
     + '\n.price::after {content: " ' + (this.all.j||'➜') + '"}'
     + '\n.action::before {content: " "}'
@@ -63,23 +62,22 @@ g.s0 = new Style({
   dice: {s: '🎲', f: '#b3d'},
 });
 
-g.s1 = new Style({
+g.s1 = new Style({ j: '•',
   menu: {s: '🐍', f: '#f7b'},
   fans: {s: '🐞', f: '#090'},
   dice: {s: '🎲', f: '#0ff'},
 });
 
-g.s2 = new Style({
+g.s2 = new Style({ j: '፡',
   menu: {s: '🌸', f: '#0bd'},
   fans: {s: '🍁', f: '#090'},
-  dice: {s: '🎲', f: '#ff0'},
+  dice: {s: '🎲', f: '#a70', n:true},
 });
 
 g.s3 = new Style({
-  menu: {s: '🌵', f: '#0bd'},
-  fans: {s: '🏰', f: '#090'},
-  dice: {s: '🎲', f: '#ff0'},
-  n: true
+  menu: {s: '🌵', f: '#0bd', n:true},
+  fans: {s: '💎', f: '#090', n:true},
+  dice: {s: '🎲', f: '#c90'},
 });
 
 function setCSS(s) {
@@ -102,10 +100,12 @@ function setStyles(y = g.s0) {
   y.apply();
   let r = g.css;
   for (const duty in offers) {
-    const {s, f, w} = offers[duty];
+    const {s, f, w, n} = offers[duty];
+    const b = n ? '\\A' : '  ';
     r += ''
+    + `\n #${duty} .symbol::before {content: "${b}"; white-space: pre}`
     + `\n #${duty} .symbol::after {content: "${s}"}`
-    + `\n #${duty} .action {font: "color=${f}"}`
+    + `\n #${duty} {color: ${f}}`;
   }
   setCSS(r);
 }
