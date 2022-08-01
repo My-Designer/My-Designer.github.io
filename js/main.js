@@ -80,21 +80,21 @@ g.s0 = new Style({
 });
 
 g.s1 = new Style({ j: '•',
-  goal: {s: '🏁', f: '#aaa'},
+  goal: {s: '🏁', f: '#aaa', n:true},
   menu: {s: '🐍', f: '#f7b'},
   fans: {s: '🐞', f: '#090'},
   dice: {s: '🎲', f: '#0ad'},
 });
 
 g.s2 = new Style({ j: '։',
-  goal: {s: '🏁', f: '#555', n:true},
+  goal: {s: '🚩', f: '#555'},
   menu: {s: '🌸', f: '#0ad'},
   fans: {s: '🍁', f: '#090'},
   dice: {s: '🎲', f: '#a70', n:true},
 });
 
 g.s3 = new Style({ j: 'ː',
-  goal: {s: '🚩', f: '#bbb'},
+  goal: {s: '🏁', f: '#bbb'},
   menu: {s: '🌸', f: '#0ad'},
   fans: {s: '🍁', f: '#090'},
   dice: {s: '🎲', f: '#a70'},
