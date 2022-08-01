@@ -84,13 +84,6 @@ function setCSS(s) {
   g.sheet.innerHTML =  s;
 }
 
-function setAfter(s) {
-  setCSS( ''
-//    +'\np::after {content: "hup'+s+'"}'
-    +'\n.symbol::after {content: "hup'+s+'"}'
-  );
-}
-
 function initStyles() {
   g.sheet = document.createElement('style')
   document.body.appendChild(g.sheet);
